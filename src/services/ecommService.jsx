@@ -1,5 +1,5 @@
 import axios from 'axios';
-const url='https://ecomm-back-end.herokuapp.com';
+const url='https://ecommerce-back-end1.herokuapp.com';
 
 class EcommService
 {

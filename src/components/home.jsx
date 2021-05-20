@@ -188,7 +188,7 @@ class Home extends Component {
               
                 <div role="tabpanel" className="tab-pane active" id={sp.Id}>
                   <div className="tab-text" tabIndex={4}>
-                    <h2>Apple iPhone 6</h2>
+                    <h2>{sp.Name}</h2>
                     <p>
                       {sp.Description}
                     </p>{" "}
