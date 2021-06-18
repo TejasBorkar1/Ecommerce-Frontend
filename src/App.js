@@ -30,6 +30,7 @@ function App() {
           setToken1(false)}
   }
     useEffect(() => {
+      console.log("jhjksd")
       func()
     }, [func])
     // if(token === false && token1 === true)
@@ -51,7 +52,7 @@ function App() {
             <Route path="/signUp" component={SignUp}></Route>
             <Route path="/cart" >{token === true? <Cart/>: <Redirect exact to = "/"/>}
               </Route> 
-            <Route path="/productdetail/:id" component={ProductDetails}></Route>
+            <Route path="/:id" component={ProductDetails}></Route>
             
           </Switch>
         </div>

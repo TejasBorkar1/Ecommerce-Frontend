@@ -209,7 +209,7 @@ class SignUp extends Component {
 
   stopSubmission = (e) => {
     e.preventDefault();
-    const data =
+    const message =
     {
       email: this.state.email,
       password: this.state.password,
@@ -225,7 +225,7 @@ class SignUp extends Component {
     //const isValid = this.validate();
     if (!this.state.NameError && !this.state.passwordError && !this.state.confirmPasswordValidation && !this.state.EmailError && !this.state.MobileNumberError && !this.state.Address1Error  && !this.state.ZipError) {
       axios
-        .post(`${'http://localhost:8081'}/user`, data)
+        .post(`${'http://localhost:8081'}/user/create`, message)
         .then(res => {
           this.setState({ message1: 'Signed Up Successfully' })
         })

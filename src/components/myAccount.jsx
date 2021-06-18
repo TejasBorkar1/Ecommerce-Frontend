@@ -46,24 +46,7 @@ s_a[34]=" Almora | Bageshwar | Bhatwari | Chakrata | Chamoli | Champawat | Dehra
 s_a[35]=" Adra | Alipurduar | Amlagora | Arambagh | Asansol | Balurghat | Bankura | Bardhaman | Basirhat | Berhampur | Bethuadahari | Birbhum | Birpara | Bishanpur | Bolpur | Bongoan | Bulbulchandi | Burdwan | Calcutta | Canning | Champadanga | Contai | Cooch Behar | Daimond Harbour | Dalkhola | Dantan | Darjeeling | Dhaniakhali | Dhuliyan | Dinajpur | Dinhata | Durgapur | Gangajalghati | Gangarampur | Ghatal | Guskara | Habra | Haldia | Harirampur | Harishchandrapur | Hooghly | Howrah | Islampur | Jagatballavpur | Jalpaiguri | Jhalda | Jhargram | Kakdwip | Kalchini | Kalimpong | Kalna | Kandi | Karimpur | Katwa | Kharagpur | Khatra | Krishnanagar | Mal Bazar | Malda | Manbazar | Mathabhanga | Medinipur | Mekhliganj | Mirzapur | Murshidabad | Nadia | Nagarakata | Nalhati | Nayagarh | Parganas | Purulia | Raiganj | Rampur Hat | Ranaghat | Seharabazar | Siliguri | Suri | Takipur | Tamluk";
 
 
-// const INITIAL_STATE = {
-//   Name: "",
-//   Email: "",
-//   MobileNumber: "",
-//   Address:"",
-//   Address2:"",
-//   City:"",
-//   State:"",
-//   Zip:"",
-//   NameError: "",
-//   EmailError: "",
-//   AddressError:"",
-//   Address2Error:"",
-//   MobileNumberError: "",
-//   CityError:"",
-//   ZipError:"",
 
-// }
 
 class MyAccount extends Component {
   constructor(props) {
@@ -181,15 +164,7 @@ class MyAccount extends Component {
     return true;
   };
 
-  // stopSubmission = (e) => {
-  //   e.preventDefault();
-  //   const isValid = this.validate();
-  //   if (isValid) {
-  //     console.log(this.state);
-  //     this.setState(this.state);
-  //   }
-  // };
-
+ 
   stopSubmission = (e) => {
     e.preventDefault();
     const data = {
@@ -323,34 +298,6 @@ class MyAccount extends Component {
               />
             </div>
             <div className="form-row">
-              
-                {/* <div className="form-group col-md-18">
-                  <label>City</label>
-                  <input
-                    type="text"
-                    name="City"
-                    className="form-control"
-                    placeholder="City"
-                    value={this.state.city}
-                    onChange={(e) => this.setState({ city: e.target.value })}
-                  />
-                </div>
-                <div className="text-danger">{this.state.CityError}</div>
-              </div>
-
-              <div>
-                <div className="form-group col-md-18">
-                  <label>State</label>
-                  <input
-                    type="text"
-                    name="State"
-                    className="form-control"
-                    placeholder="State"
-                    value={this.state.states}
-                    onChange={(e) => this.setState({ states: e.target.value })}
-                  />
-                </div>
-                <div className="text-danger">{this.state.StateError}</div> */}
               <div>
                    <label>State</label>
                   <select  class="form-control" placeholder={this.state.states} value={this.state.states} onChange={(a)=> this.stateSelect(a)}>

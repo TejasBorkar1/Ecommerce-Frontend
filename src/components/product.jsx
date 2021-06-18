@@ -1,48 +1,38 @@
-import React, { Component } from "react";
+import React from "react";
 import EcommService from '../services/ecommService';
-import ProductDisplay from "./productDisplay";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux'
+import{useSelector, useDispatch} from 'react-redux';
+import { retrieveProducts } from "../action/productAction";
+import { useState,useEffect } from "react";
 
-class Product extends Component
-{
-    constructor(props)
-    {
-        super(props);
-        this.state = {products:[],cartItems:[] };
-        this.getProductById = this.getProductById.bind(this);
-        this.addToCart = this.addToCart.bind(this);
+function Product(){
+    React.useEffect( function (){
+      console.log("chalja")
+    })
+     const products = useSelector(state => state.products);
+     const dispatch = useDispatch();
+     const [count,setCount]=useState(0)
+     console.log(count)
+    //  useEffect(()=>{
+    //   console.log("usee")
+    //    dispatch(retrieveProducts())
+    //  },[dispatch])
+    React.useEffect( function (){
+      console.log("chalja")
+    })
+    dispatch(retrieveProducts());
 
-    }
     
-    componentDidMount()
-    {
-        EcommService.getProduct().then((res)=>{
-            this.setState({products : res.data.products})
-        });
-        if(localStorage.getItem('cart')){
-        this.setState({cartItems: JSON.parse(localStorage.getItem('cart'))})
-        }
-    }
     
-
-    getProductById = (id) => {
-      
-      this.props.history.push(`/productdetail/${id}`);
-    }
-    addToCart =async (p) => { 
-      await this.setState({cartItems:[...this.state.cartItems,p]})
-      localStorage.setItem('cart',JSON.stringify(this.state.cartItems))
-    }
-
 
   
-    render()
-    {
+   
         return(
            
            
@@ -52,10 +42,12 @@ class Product extends Component
               <link rel="stylesheet" href="css/slider.css" />
     
               <link href="css/style.css" rel="stylesheet" /> 
+              {console.log(products)}
+
                         <section id="products" role="region">
                         <div className="row">
                         {
-                            this.state.products.map(
+                            products.map(
                               prod => 
                                 
               <div className="col-md-4">
@@ -67,7 +59,7 @@ class Product extends Component
                   <div className="caption">
                     <h4 className="pull-right" tabIndex={9}>${prod.Price}</h4>
                     {/* {/<h4><a href="product1.html" tabindex="8" value="1">Samsung Galaxy S5</a></h4>/} */}
-                    <h4><Link to ={`productdetail/${prod.Id}`}><button  id="product" value={1} tabIndex={8}>{prod.Name}</button></Link></h4>
+                    <h4><Link to ={`${prod.Id}`}><button  id="product" value={1} tabIndex={8}>{prod.Name}</button></Link></h4>
                     <p tabIndex={8}>{prod.Description}</p>
                   </div>
                   <div className="ratings">
@@ -88,7 +80,15 @@ class Product extends Component
           </section>
            </div>
         );
-    }
+    
 }
 
+
+// const mapStateToProps = (state) => {
+  
+//   return {
+//     products: state.products
+//   }
+// }
+// export default connect(mapStateToProps) (Product);
 export default Product;
