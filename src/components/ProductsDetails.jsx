@@ -2,27 +2,41 @@ import { Component } from "react";
 import EcommService from "../services/ecommService";
 import Navbar from "./navbar";
 import ProductDisplay from "./productDisplay";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import product from "./product";
+import { useEffect } from "react";
+import { retrieveProducts } from "../action/productAction";
+import { retrieveProductDetails } from "../action/productDetailsAction";
 
-class ProductDetails extends Component
-{
-    render()
-    {
+function ProductDetails (props){
+  const products = useSelector(state=>state.productDetailsReducer)
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    let Id = props.match.params.id;
+    dispatch(retrieveProductDetails(Id))
+  },[dispatch])
+
+  
+  
+  
         return(
             <div>
               <Navbar/>
               <section>
                 <div className="row">
                   <link href="css/bootstrap.css" rel="stylesheet" />
+                  {console.log(products)}
                     <div className="col-md-8">
-                
-                        
+                      {
+                        products.message?
+                        products.message.map(
+                          prod =>
+          
                       <div className="row">
                           <div className="col-md-4">
                             <p id="image" />
-                            {console.log(this.props.Products)}
-                            <img src={`/${this.props.Products[0].Image}`} alt="Galaxy S5" class="img-responsive"></img>
+                            {/* {console.log(this.props.Products)} */}
+                            <img src={`/${prod.Image}`} alt="Galaxy S5" class="img-responsive"></img>
                           </div>
                           <div className="col-md-8 ">
                             <h2 tabIndex={1} id="name" />
@@ -50,7 +64,7 @@ class ProductDetails extends Component
                                 </div>
                                 <div id="collapseOne" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                   <div className="panel-body" tabIndex={1}>
-                                    {this.props.Products[0].Description} 
+                                    {prod.Description} 
                                     
                                   </div>
                                 </div>
@@ -87,7 +101,7 @@ class ProductDetails extends Component
                         
                         </div>
                       </div>
-                  
+                        ):null}
                     </div>
                   <div className="col-md-4">
                     <div className="list-group">
@@ -102,14 +116,15 @@ class ProductDetails extends Component
             </div>
         );
     }
-}
 
-const mapStateToProps = (state, ownProps) => {
 
-  let Id = ownProps.match.params.id;
-  return { Products: state.products.filter(function (prod){
-    return parseInt(prod.Id)===parseInt(Id)
-  })
-}
-}
-export default connect(mapStateToProps) (ProductDetails);
+// const mapStateToProps = (state, ownProps) => {
+
+//   let Id = ownProps.match.params.id;
+//   return { Products: state.products.filter(function (prod){
+//     return parseInt(prod.Id)===parseInt(Id)
+//   })
+// }
+// }
+// export default connect(mapStateToProps) (ProductDetails);
+export default ProductDetails;

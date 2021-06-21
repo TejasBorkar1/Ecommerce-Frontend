@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import axios from 'axios';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Navbar from "./navbar";
 import Subheader1 from "./subheader1";
+import { useEffect } from "react";
 
 var state_arr = new Array("Andaman & Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra & Nagar Haveli", "Daman & Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu & Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Pondicherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Tripura", "Uttar Pradesh", "Uttaranchal", "West Bengal");
 
@@ -64,142 +65,164 @@ const INITIAL_STATE =
   state_arr: state_arr,
 };
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = INITIAL_STATE;
-    this.stopSubmission = this.stopSubmission.bind(this);
-    
-  }
-  stateSelect(a) {
-    this.setState({ states: a.target.value })
+function SignUp(){
+  const [state,setstates]=useState({
+    password: "",
+    newPassword:"",
+    email: "",
+    name: "",
+    mobileNumber: "",
+    address1: "",
+    address2: "",
+    city: "",
+    states: "",
+    zip: "",
+    message1: "",
+    message2: "",
+    s_a: [],
+    state_arr: state_arr,
+  })
+// useEffect(()=>{
+//   stateSelect()
+// })
+
+ const stateSelect =(a) =>{
+   console.log(a.target.value)
+  // await setstates({...state,states: a.target.value })
     var index = 1 + state_arr.indexOf(a.target.value)
     var city_arr = s_a[index].split("|");
-    this.setState({ s_a: city_arr })
+    setstates({...state, s_a: city_arr })
+    console.log(state)
+
+  }
+  const select = (e)=>{
+    setstates({...state,states:e.target.value})
   }
   
-  nameValidation=(e) =>
+ const nameValidation=(e) =>
   {
+    console.log(e.target.value)
     let NameError = "";
-    this.setState({name:e.target.value})
+    setstates({...state,name:e.target.value})
     if (!e.target.value) {
       NameError = " Name cannot be blank";
-      this.setState({NameError:NameError});
+      setstates({...state,NameError:NameError});
     }
     else
     {
       NameError = "";
-      this.setState({NameError:NameError});
+      setstates({...state,NameError:NameError});
       
     }
+    console.log(state)
   }
-  emailValidation=(e) =>
+  const emailValidation=(e) =>
   {
     let EmailError = "";
-    this.setState({email:e.target.value})
+    setstates({...state,email:e.target.value})
     if (!e.target.value) {
       EmailError = " Email cannot be blank";
-      this.setState({EmailError:EmailError});
+      setstates({...state,EmailError:EmailError});
     }
     else if(!e.target.value.match("^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,8})(.[a-z]{2,8})$")) {
       EmailError = "Email Not In Format";
-      this.setState({EmailError:EmailError});
+      setstates({...state,EmailError:EmailError});
     }
     else
     {
       EmailError = "";
-      this.setState({EmailError:EmailError});
+      setstates({...state,EmailError:EmailError});
       
     }
   }
-  passwordValidation=(e) =>
+  const passwordValidation=(e) =>
   {
     let passwordError = "";
-    this.setState({password:e.target.value})
+    setstates({...state,password:e.target.value})
     if (!e.target.value) {
       passwordError = " password cannot be blank";
-      this.setState({passwordError:passwordError});
+      setstates({...state,passwordError:passwordError});
     }
     else if(!e.target.value.match("(?=.*[@#$]).{8,}")) {
       passwordError =  "Password must be at least 8 characters with at least one lowercase,uppercase and two special characters";
-      this.setState({passwordError:passwordError});
+      setstates({...state,passwordError:passwordError});
     }
     else
     {
       passwordError = "";
-      this.setState({passwordError:passwordError});
+      setstates({...state,passwordError:passwordError});
       
     }
   }
 
-  confirmPasswordValidation=(e) =>
+   const confirmPasswordValidation=(e) =>
   {
     let confirmPasswordError = "";
-    this.setState({newPassword:e.target.value})
+    setstates({...state,newPassword:e.target.value})
 
-    if(e.target.value !== this.state.password)
+    if(e.target.value !== state.password)
     {
       confirmPasswordError = "password not matched."
-      this.setState({confirmPasswordError:confirmPasswordError});
+      setstates({...state,confirmPasswordError:confirmPasswordError});
     }
     else
     {
       confirmPasswordError = "";
-      this.setState({confirmPasswordError:confirmPasswordError});
+      setstates({...state,confirmPasswordError:confirmPasswordError});
       
     }
-    console.log(e.target.value,this.state.password);
+    console.log(state);
   }
-  mobileNumberValidation=(e) =>
+  const mobileNumberValidation=(e) =>
   {
     let MobileNumberError = "";
-    this.setState({mobileNumber:e.target.value})
+    setstates({...state,mobileNumber:e.target.value})
     if (!e.target.value) {
       MobileNumberError = "Mobile Number can not be blank";
-      this.setState({MobileNumberError:MobileNumberError});
+      setstates({...state,MobileNumberError:MobileNumberError});
     }
     else if(!e.target.value.match("^[0-9]{10}")) {
       MobileNumberError =  "Mobile Number must contain 10 Digits";
-      this.setState({MobileNumberError:MobileNumberError});
+      setstates({...state,MobileNumberError:MobileNumberError});
     }
     else
     {
       MobileNumberError = "";
-      this.setState({MobileNumberError:MobileNumberError});
+      setstates({...state,MobileNumberError:MobileNumberError});
       
     }
   }
-  address1Validation=(e) =>
+  const address1Validation=(e) =>
   {
     let Address1Error = "";
-    this.setState({address1:e.target.value})
+    setstates({...state,address1:e.target.value})
     if (!e.target.value) {
       Address1Error = " Address cannot be blank";
-      this.setState({Address1Error:Address1Error});
+      setstates({...state,Address1Error:Address1Error});
     }
     else
     {
       Address1Error = "";
-      this.setState({Address1Error:Address1Error});
+      setstates({...state,Address1Error:Address1Error});
       
     }
   }
-  zipValidation=(e) =>
+  const zipValidation=(e) =>
   {
     let ZipError = "";
-    this.setState({zip:e.target.value})
+    setstates({...state,zip:e.target.value})
     if (!e.target.value) {
       ZipError = " Zip cannot be blank";
-      this.setState({ZipError:ZipError});
+      setstates({...state,ZipError:ZipError});
     }
     else if(!e.target.value.match("^[1-9][0-9]{5}")) {
       ZipError =  "Zip Invalid";
-      this.setState({ZipError:ZipError});
+      setstates({...state,ZipError:ZipError});
     }
     else
     {
       ZipError = "";
-      this.setState({ZipError:ZipError});
+      setstates({...state,ZipError:ZipError});
       
     }
   }
@@ -207,50 +230,50 @@ class SignUp extends Component {
 
   
 
-  stopSubmission = (e) => {
+  const stopSubmission = (e) => {
     e.preventDefault();
     const message =
     {
-      email: this.state.email,
-      password: this.state.password,
-      newPassword : this.state.newPassword,
-      name: this.state.name,
-      mobileNumber: this.state.mobileNumber,
-      address1: this.state.address1,
-      address2: this.state.address2,
-      city: this.state.city,
-      states: this.state.states,
-      zip: this.state.zip
+      email: state.email,
+      password: state.password,
+      newPassword : state.newPassword,
+      name: state.name,
+      mobileNumber: state.mobileNumber,
+      address1: state.address1,
+      address2: state.address2,
+      city: state.city,
+      states: state.states,
+      zip: state.zip
     };
-    //const isValid = this.validate();
-    if (!this.state.NameError && !this.state.passwordError && !this.state.confirmPasswordValidation && !this.state.EmailError && !this.state.MobileNumberError && !this.state.Address1Error  && !this.state.ZipError) {
+    //const isValid = validate();
+    if (!state.NameError && !state.passwordError && !state.confirmPasswordValidation && !state.EmailError && !state.MobileNumberError && !state.Address1Error  && !state.ZipError) {
       axios
-        .post(`${'http://localhost:8081'}/user/create`, message)
+        .post(`${'http://localhost:8081'}/user`, message)
         .then(res => {
-          this.setState({ message1: 'Signed Up Successfully' })
+          setstates({...state, message1: 'Signed Up Successfully' })
         })
         .catch(err => {
-          this.setState({ message2: err.response.data.message })
+          setstates({...state, message2: err.response.data.message })
         });
-      console.log('Customer Details:', this.state);
-      this.setState(INITIAL_STATE);
+      console.log('Customer Details:', state);
+      setstates(INITIAL_STATE);
     }
   };
 
-  render() {
+ 
     let error = ''
     let status = ''
-    if (this.state.message2) {
+    if (state.message2) {
       error = (
         <div className="alert alert-danger text-center" role="alert">
-          {this.state.message2}
+          {state.message2}
         </div>
       )
     }
-    if (this.state.message1) {
+    if (state.message1) {
       status = (
         <div className="alert alert-success text-center" role="alert">
-          {this.state.message1}
+          {state.message1}
         </div>
       )
     }
@@ -264,7 +287,7 @@ class SignUp extends Component {
             <div className="card col-md-6 offset-md-3 offset-md-3 p-4" style={{ borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}>
               <h2 className="text-center mb-md-4">Sign Up</h2>
               <div className="card-body">
-                <form method="POST" onSubmit={this.stopSubmission} >
+                <form method="POST" onSubmit={stopSubmission} >
                   {error}
                   {status}
                   <div>
@@ -277,11 +300,11 @@ class SignUp extends Component {
                       type="text"
                       className="form-control"
                       placeholder="John Smith"
-                      value={this.state.name}
-                      onChange={(e) => this.nameValidation(e)} />
+                      // value={state.name}
+                      onChange={e=>setstates({...state,name: e.target.value})} />
                   </div>
                   <div className="text-danger" title="NameError">
-                    {this.state.NameError}
+                    {state.NameError}
                   </div>
                   <br />
                   <div>
@@ -292,11 +315,11 @@ class SignUp extends Component {
                       className="form-control"
                       placeholder="john.smith@gmail.com"
     
-                      value={this.state.email}
-                      onChange={(e) => this.emailValidation(e)} />
+                      // value={state.email}
+                      onChange={e=>setstates({...state,email: e.target.value})} />
                   </div>
                   <div className="text-danger" title = "EmailError">
-                    {this.state.EmailError}
+                    {state.EmailError}
                   </div>
                   <br></br>
                   <div>
@@ -307,11 +330,11 @@ class SignUp extends Component {
                       type="password"
                       className="form-control"
                       placeholder="Enter your password"
-                      value={this.state.password}
-                      onChange={(e) => this.passwordValidation(e)} />
+                      // value={state.password}
+                      onChange={e=>setstates({...state,password: e.target.value})} />
                   </div>
                   <div className="text-danger" title = "passwordError">
-                    {this.state.passwordError}
+                    {state.passwordError}
                   </div>
                   <br></br>
 
@@ -323,11 +346,11 @@ class SignUp extends Component {
                     type="password"
                     className="form-control"
                     placeholder="Re-Enter your password"
-                    value={this.state.newPassword}
-                    onChange={(e) => this.confirmPasswordValidation(e)} />
+                    // value={state.newPassword}
+                    onChange={e=>setstates({...state,newPassword: e.target.value})} />
                   </div>
                   <div className="text-danger" title = "confirmPasswordError">
-                  {this.state.confirmPasswordError}
+                  {state.confirmPasswordError}
                   </div>
                   <br></br>
 
@@ -339,10 +362,10 @@ class SignUp extends Component {
                       type="Number"
                       className="form-control"
                       placeholder="9876543210"
-                      value={this.state.mobileNumber}
-                      onChange={(e) => this.mobileNumberValidation(e)} />
+                      // value={state.mobileNumber}
+                      onChange={e=>setstates({...state,mobileNumber: e.target.value})}/>
                     <div className="text-danger">
-                      {this.state.MobileNumberError}
+                      {state.MobileNumberError}
                     </div>
                     <br />
                   </div>
@@ -353,10 +376,10 @@ class SignUp extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Enter your address1"
-                      value={this.state.address1}
-                      onChange={(e) => this.address1Validation(e)} />
+                      // value={state.address1}
+                      onChange={e=>setstates({...state,address1: e.target.value})}/>
                     <div className="text-danger">
-                      {this.state.Address1Error}
+                      {state.Address1Error}
                     </div>
                     <br />
                   </div>
@@ -368,42 +391,42 @@ class SignUp extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Enter your address2 (Optional)"
-                      value={this.state.address2}
-                      onChange={(e) =>
-                        this.setState({ address2: e.target.value })} />
+                      // value={state.address2}
+                      onChange={e =>
+                        setstates({...state, address2: e.target.value })} />
 
                     <br />
                   </div>
                   
                   <div>
                     <label>State</label>
-                    <select className="form-control" placeholder={this.state.states} value={this.state.states} onChange={(a) => this.stateSelect(a)}>
+                    <select className="form-control" placeholder={state.states}  onChange={select,stateSelect}>
                       <option selected>--select--</option>
-                      {this.state.state_arr.map(state_arr => (
+                      {state.state_arr.map(state_arr => (
                         <option key={state_arr} value={state_arr}>
                           {state_arr}
                         </option>
 
                       ))}
                     </select><br />
-                    <div className="text-danger">{this.state.StatesError}</div>
+                    <div className="text-danger">{state.StatesError}</div>
                   </div>
                   <div>
                     <label>City</label>
-                    <select className="form-control" placeholder={this.state.city} value={this.state.city} onChange={(a) => {
-                      this.setState({
+                    <select className="form-control" placeholder={state.city}  onChange={(a) => {
+                      setstates({...state,
                         city: a.target.value
                       })
                     }}>
                       <option selected>--select--</option>
-                      {this.state.s_a.map(s_a => (
+                      {state.s_a.map(s_a => (
                         <option key={s_a} value={s_a}>
                           {s_a}
                         </option>
                       ))}
                     </select>
 
-                    <div className="text-danger">{this.state.CityError}</div>
+                    <div className="text-danger">{state.CityError}</div>
                   </div>
 
                   <div>
@@ -413,11 +436,11 @@ class SignUp extends Component {
                       type="Number"
                       className="form-control"
                       placeholder="Enter your zip"
-                      value={this.state.zip}
-                      onChange={(e) => this.zipValidation(e)}
+                      // value={state.zip}
+                      onChange={e=>setstates({...state,zip: e.target.value})}
                       
                     />
-                    <div className="text-danger">{this.state.ZipError}</div>
+                    <div className="text-danger">{state.ZipError}</div>
                     <br />
                   </div>
 
@@ -434,6 +457,6 @@ class SignUp extends Component {
 
     );
   }
-}
+
 
 export default SignUp;

@@ -12,21 +12,14 @@ import { retrieveProducts } from "../action/productAction";
 import { useState,useEffect } from "react";
 
 function Product(){
-    React.useEffect( function (){
-      console.log("chalja")
-    })
-     const products = useSelector(state => state.products);
+    
+     const products = useSelector(state => state.productReducer);
      const dispatch = useDispatch();
-     const [count,setCount]=useState(0)
-     console.log(count)
-    //  useEffect(()=>{
-    //   console.log("usee")
-    //    dispatch(retrieveProducts())
-    //  },[dispatch])
-    React.useEffect( function (){
-      console.log("chalja")
-    })
-    dispatch(retrieveProducts());
+     useEffect(()=>{
+      console.log("usee")
+       dispatch(retrieveProducts())
+     },[dispatch])
+    
 
     
     
@@ -47,7 +40,8 @@ function Product(){
                         <section id="products" role="region">
                         <div className="row">
                         {
-                            products.map(
+                          products.products?
+                            products.products.map(
                               prod => 
                                 
               <div className="col-md-4">
@@ -71,7 +65,7 @@ function Product(){
               </div>
               
                                 
-                  )}
+                  ):null}
                
               
              </div>
